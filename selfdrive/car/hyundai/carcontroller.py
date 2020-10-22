@@ -1,3 +1,5 @@
+import copy
+
 from cereal import car
 from common.realtime import DT_CTRL
 from common.numpy_fast import clip
@@ -147,6 +149,13 @@ class CarController():
 
 
     # Steering Torque
+
+    # steerAngleAbs = abs(actuators.steerAngle)
+    # limitParams = copy.copy(SteerLimitParams)
+    # limitParams.STEER_MAX = int(interp(steerAngleAbs, [5., 10., 20., 30., 50.], [255, SteerLimitParams.STEER_MAX, 500, 600, 700]))
+    # limitParams.STEER_DELTA_UP = int(interp(steerAngleAbs, [5., 10., 50.], [2, 3, 4]))
+    # limitParams.STEER_DELTA_DOWN = int(interp(steerAngleAbs, [5., 10., 50.], [4, 5, 6]))
+
     if self.driver_steering_torque_above_timer:
       new_steer = actuators.steer * SteerLimitParams.STEER_MAX * (self.driver_steering_torque_above_timer / 100)
     else:
