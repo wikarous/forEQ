@@ -19,6 +19,7 @@ LOG_MPC = os.environ.get('LOG_MPC', True)
 
 LANE_CHANGE_SPEED_MIN = int(Params().get('OpkrLaneChangeSpeed')) * CV.KPH_TO_MS
 LANE_CHANGE_TIME_MAX = 10.
+DST_ANGLE_LIMIT = 7.
 
 DESIRES = {
   LaneChangeDirection.none: {
@@ -105,15 +106,20 @@ class PathPlanner():
     self.angle_steers_des_time = 0.0
 
   def update(self, sm, pm, CP, VM):
+    limit_steers1 = 0
+    limit_steers2 = 0
+
     v_ego = sm['carState'].vEgo
     angle_steers = sm['carState'].steeringAngle
     active = sm['controlsState'].active
-
+    steeringPressed = sm['carState'].steeringPressed 
     saturated_steering = sm['controlsState'].steerSaturated
     live_steerratio = sm['liveParameters'].steerRatio
     mode_select = sm['carState'].cruiseState.modeSel
-
+    steeringTorque = sm['carState'].steeringTorque    
     angle_offset = sm['liveParameters'].angleOffset
+    model_sum = sm['controlsState'].modelSum
+    v_ego_kph = v_ego * CV.MS_TO_KPH    
 
     # Run MPC
     self.angle_steers_des_prev = self.angle_steers_des_mpc
@@ -239,11 +245,67 @@ class PathPlanner():
 
     self.angle_steers_des_mpc = float(math.degrees(delta_desired * VM.sR) + angle_offset)
 
+    # Atom 
+    org_angle_steers_des = self.angle_steers_des_mpc
+    delta_steer = org_angle_steers_des - angle_steers
+
+    if self.lane_change_state == LaneChangeState.laneChangeStarting:
+      xp = [40,70]
+      fp2 = [3,8]
+      limit_steers = interp( v_ego_kph, xp, fp2 )
+      self.angle_steers_des_mpc = self.limit_ctrl( org_angle_steers_des, limit_steers, angle_steers )      
+    elif steeringPressed:
+      if angle_steers > 10 and steeringTorque > 0:
+        delta_steer = max( delta_steer, 0 )
+        delta_steer = min( delta_steer, DST_ANGLE_LIMIT )
+        self.angle_steers_des_mpc = angle_steers + delta_steer
+      elif angle_steers < -10  and steeringTorque < 0:
+        delta_steer = min( delta_steer, 0 )
+        delta_steer = max( delta_steer, -DST_ANGLE_LIMIT )        
+        self.angle_steers_des_mpc = angle_steers + delta_steer
+      else:
+        if steeringTorque < 0:  # right
+          if delta_steer > 0:
+            self.angle_steers_des_mpc = self.limit_ctrl( org_angle_steers_des, DST_ANGLE_LIMIT, angle_steers )
+        elif steeringTorque > 0:  # left
+          if delta_steer < 0:
+            self.angle_steers_des_mpc = self.limit_ctrl( org_angle_steers_des, DST_ANGLE_LIMIT, angle_steers )
+    elif v_ego_kph < 15: 
+    # 저속 와리가리 제어.  
+      xp = [5,10,15]
+      fp2 = [3,5,7]
+      limit_steers = interp( v_ego_kph, xp, fp2 )
+      self.angle_steers_des_mpc = self.limit_ctrl( org_angle_steers_des, limit_steers, angle_steers )
+    elif v_ego_kph > 85: 
+      pass
+    elif abs(angle_steers) > 20: 
+    # #최대 허용 조향각 제어 로직 1.  
+      xp = [-40,-30,-20,-10,-5,0,5,10,20,30,40]    # 5=>약12도, 10=>28 15=>35, 30=>52
+      fp1 = [ 3, 5, 7, 9,11,13,15,17,15,12,10]    # +
+      fp2 = [10,12,15,17,15,13,11, 9, 7, 5, 3]    # -
+      limit_steers1 = interp( model_sum, xp, fp1 )  # +
+      limit_steers2 = interp( model_sum, xp, fp2 )  # -
+      self.angle_steers_des_mpc = self.limit_ctrl1( org_angle_steers_des, limit_steers1, limit_steers2, angle_steers )
+
+    # Conan : 최대 허용 조향각 제어 로직 2.  
+    delta_steer2 = self.angle_steers_des_mpc - angle_steers
+    if delta_steer2 > DST_ANGLE_LIMIT:   
+      p_angle_steers = angle_steers + DST_ANGLE_LIMIT
+      self.angle_steers_des_mpc = p_angle_steers
+    elif delta_steer2 < -DST_ANGLE_LIMIT:
+      m_angle_steers = angle_steers - DST_ANGLE_LIMIT
+      self.angle_steers_des_mpc = m_angle_steers
+
+    # Hoya : 가변 sR rate_cost 
+    self.sr_boost_bp = [ 10.0, 15.0, 20.0, 30.0, 50.0, 60.0]
+    self.sR_Cost     = [ 1.00, 0.75, 0.60, 0.30, 0.18, 0.10] 
+    steerRateCost  = interp(abs(angle_steers), self.sr_boost_bp, self.sR_Cost)
+
     #  Check for infeasable MPC solution
     mpc_nans = any(math.isnan(x) for x in self.mpc_solution[0].delta)
     t = sec_since_boot()
     if mpc_nans:
-      self.libmpc.init(MPC_COST_LAT.PATH, MPC_COST_LAT.LANE, MPC_COST_LAT.HEADING, CP.steerRateCost)
+      self.libmpc.init(MPC_COST_LAT.PATH, MPC_COST_LAT.LANE, MPC_COST_LAT.HEADING, steerRateCost) # CP.steerRateCost > steerRateCost
       self.cur_state[0].delta = math.radians(angle_steers - angle_offset) / VM.sR
 
       if t > self.last_cloudlog_t + 5.0:

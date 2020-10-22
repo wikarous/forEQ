@@ -114,6 +114,7 @@ class Controls:
 
     self.controlsAllowed = False
 
+    self.model_sum = 0
     self.state = State.disabled
     self.enabled = False
     self.active = False
@@ -473,6 +474,7 @@ class Controls:
     if not self.hyundai_lkas and self.enabled:
       # send car controls over can
       can_sends = self.CI.apply(CC, self.sm)
+      self.model_sum  = self.CI.CC.model_sum        
       self.pm.send('sendcan', can_list_to_can_capnp(can_sends, msgtype='sendcan', valid=CS.canValid))
 
     force_decel = (self.sm['dMonitoringState'].awarenessStatus < 0.) or \
@@ -528,6 +530,7 @@ class Controls:
     controlsState.steerSaturated = self.steer_saturated
     controlsState.alertTextMsg1 = self.log_alertTextMsg1
     controlsState.alertTextMsg2 = self.log_alertTextMsg2
+    controlsState.modelSum = float(self.model_sum)  # self.CI.CC.model_speed   #, self.model_sum    
 
     if self.CP.lateralTuning.which() == 'pid':
       controlsState.lateralControlState.pidState = lac_log
