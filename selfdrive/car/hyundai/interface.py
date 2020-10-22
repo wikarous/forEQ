@@ -31,9 +31,10 @@ class CarInterface(CarInterfaceBase):
 
     ret.carName = "hyundai"
     ret.safetyModel = car.CarParams.SafetyModel.hyundaiLegacy
-    if candidate in [CAR.SONATA]:
-     ret.safetyModel = car.CarParams.SafetyModel.hyundai
-
+    if candidate in [CAR.GRANDEUR_HEV]:
+      ret.safetyModel = car.CarParams.SafetyModel.hyundaiCommunity
+    else if candidate in [CAR.SONATA]:
+      ret.safetyModel = car.CarParams.SafetyModel.hyundai
 
     params = Params()
     PidKp = int(params.get('PidKp')) * 0.01
