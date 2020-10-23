@@ -353,7 +353,7 @@ static void update_all_lane_lines_data(UIState *s, const cereal::ModelData::Path
 
 static void ui_draw_lane(UIState *s,  model_path_vertices_data *pstart, NVGcolor color) {
   ui_draw_lane_line(s, pstart, color);
-  color.a /= 15; #25
+  color.a /= 15; //25
   ui_draw_lane_line(s, pstart + 1, color);
 }
 
