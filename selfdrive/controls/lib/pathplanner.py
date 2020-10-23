@@ -19,7 +19,7 @@ LOG_MPC = os.environ.get('LOG_MPC', True)
 
 LANE_CHANGE_SPEED_MIN = int(Params().get('OpkrLaneChangeSpeed')) * CV.KPH_TO_MS
 LANE_CHANGE_TIME_MAX = 10.
-DST_ANGLE_LIMIT = 7.
+DST_ANGLE_LIMIT = 6.
 
 DESIRES = {
   LaneChangeDirection.none: {
@@ -299,8 +299,8 @@ class PathPlanner():
     elif abs(angle_steers) > 20: 
     # #최대 허용 조향각 제어 로직 1.  
       xp = [-40,-30,-20,-10,-5,0,5,10,20,30,40]    # 5=>약12도, 10=>28 15=>35, 30=>52
-      fp1 = [ 3, 5, 7, 9,11,13,15,17,15,12,10]    # +
-      fp2 = [10,12,15,17,15,13,11, 9, 7, 5, 3]    # -
+      fp1 = [ 3, 5, 7, 9,11,12,13,12,11,10,9]    # +
+      fp2 = [ 9,10,11,12,13,12,11, 9, 7, 5, 3]    # -
       limit_steers1 = interp( model_sum, xp, fp1 )  # +
       limit_steers2 = interp( model_sum, xp, fp2 )  # -
       self.angle_steers_des_mpc = self.limit_ctrl1( org_angle_steers_des, limit_steers1, limit_steers2, angle_steers )
