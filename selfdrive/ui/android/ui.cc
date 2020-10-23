@@ -182,6 +182,7 @@ int main(int argc, char* argv[]) {
         auto alertStatus = s->scene.controls_state.getAlertStatus();
         if (s->awake_timeout == 0 && (s->status == STATUS_DISENGAGED || s->status == STATUS_ALERT || s->status == STATUS_WARNING || alert_sound != AudibleAlert::NONE || alertStatus == cereal::ControlsState::AlertStatus::NORMAL)) {
           set_awake(s, true);
+        }
       }
     }
 
