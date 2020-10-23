@@ -353,7 +353,7 @@ static void update_all_lane_lines_data(UIState *s, const cereal::ModelData::Path
 
 static void ui_draw_lane(UIState *s,  model_path_vertices_data *pstart, NVGcolor color) {
   ui_draw_lane_line(s, pstart, color);
-  color.a /= 15; //25
+  color.a /= 10; //25
   ui_draw_lane_line(s, pstart + 1, color);
 }
 
@@ -461,11 +461,11 @@ static void ui_draw_vision_maxspeed(UIState *s) {
 
   bool is_cruise_set = (maxspeed != 0 && maxspeed != SET_SPEED_NA);
 
-  int viz_maxspeed_w = 184;
+  int viz_maxspeed_w = 204;
   int viz_maxspeed_h = 202;
   int viz_maxspeed_x = s->scene.viz_rect.x + (bdr_s*2);
   int viz_maxspeed_y = s->scene.viz_rect.y + (bdr_s*1.5);
-  int viz_maxspeed_xo = 180;
+  int viz_maxspeed_xo = 200;
 
   viz_maxspeed_xo = 0;
 
@@ -1087,11 +1087,11 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
 static void bb_ui_draw_UI(UIState *s)
 {
   const UIScene *scene = &s->scene;
-  const int bb_dml_w = 180;
+  const int bb_dml_w = 204;
   const int bb_dml_x = (scene->viz_rect.x + (bdr_s * 2));
   const int bb_dml_y = (scene->viz_rect.y + (bdr_s * 1.5)) + 220;
 
-  const int bb_dmr_w = 180;
+  const int bb_dmr_w = 204;
   const int bb_dmr_x = scene->viz_rect.x + scene->viz_rect.w - bb_dmr_w - (bdr_s * 2);
   const int bb_dmr_y = (scene->viz_rect.y + (bdr_s * 1.5)) + 220;
 
