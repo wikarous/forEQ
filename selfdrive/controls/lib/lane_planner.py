@@ -43,8 +43,14 @@ def calc_d_poly(l_poly, r_poly, p_poly, l_prob, r_prob, lane_width, v_ego):
 
   lr_prob = l_prob + r_prob - l_prob * r_prob
 
-  if lr_prob > 0.65:
-    lr_prob = min(lr_prob * 1.35, 1.0)
+  # 양민
+  if lr_prob > 0.7: # 차선추종 강화 로직
+    lr_prob = max(0.95, lr_prob)
+  elif lr_prob > 0.575 and l_prob > 0.2 and r_prob > 0.2 :
+    lr_prob = max(0.875, lr_prob)
+  # neokii
+  #if lr_prob > 0.65:
+  #  lr_prob = min(lr_prob * 1.35, 1.0)
 
   d_poly_lane = (l_prob * path_from_left_lane + r_prob * path_from_right_lane) / (l_prob + r_prob + 0.0001)
   return lr_prob * d_poly_lane + (1.0 - lr_prob) * p_poly
@@ -90,25 +96,25 @@ class LanePlanner():
     curvature = sm['controlsState'].curvature
     mode_select = sm['carState'].cruiseState.modeSel
 
-    if mode_select == 3: #편도1차선
-      Curv = round(curvature, 3)
-      if curvature > 0.001: # left curve
+    Curv = round(curvature, 3)
+    if curvature > 0.001: # left curve
         if Curv > 0.006:
           Curv = 0.006
-        lean_offset = -0.02 - (Curv * 20) #move the car to right at left curve
-      elif curvature < -0.001:   # right curve
+        lean_offset = -0.04 - (Curv * 20) #move the car to right at left curve
+    elif curvature < -0.001:   # right curve
         if Curv < -0.006:
           Curv = -0.006
-        lean_offset = -0.02 + (Curv * 30) #move the car to right at right curve
-      else:
+        lean_offset = -0.04 + (Curv * 30) #move the car to right at right curve
+    else:
         lean_offset = 0
 
+    if mode_select == 3: #편도1차선
     # only offset left and right lane lines; offsetting p_poly does not make sense
       self.l_poly[3] += CAMERA_OFFSET_A + lean_offset
       self.r_poly[3] += CAMERA_OFFSET_A + lean_offset
     else:
-      self.l_poly[3] += CAMERA_OFFSET - 0.02
-      self.r_poly[3] += CAMERA_OFFSET
+      self.l_poly[3] += CAMERA_OFFSET + lean_offset / 2
+      self.r_poly[3] += CAMERA_OFFSET + lean_offset / 2
 
     # Find current lanewidth
     self.lane_width_certainty += 0.05 * (self.l_prob * self.r_prob - self.lane_width_certainty)
