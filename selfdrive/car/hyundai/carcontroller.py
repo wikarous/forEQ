@@ -157,10 +157,10 @@ class CarController():
     limitParams.STEER_DELTA_DOWN = int(interp(steerAngleAbs, [5., 10., 50.], [4, 5, 6]))
 
     if self.driver_steering_torque_above_timer:
-      new_steer = actuators.steer * LimitParams.STEER_MAX * (self.driver_steering_torque_above_timer / 100)
+      new_steer = actuators.steer * limitParams.STEER_MAX * (self.driver_steering_torque_above_timer / 100)
     else:
-      new_steer = actuators.steer * LimitParams.STEER_MAX
-    apply_steer = apply_std_steer_torque_limits(new_steer, self.apply_steer_last, CS.out.steeringTorque, LimitParams)
+      new_steer = actuators.steer * limitParams.STEER_MAX
+    apply_steer = apply_std_steer_torque_limits(new_steer, self.apply_steer_last, CS.out.steeringTorque, limitParams)
     self.steer_rate_limited = new_steer != apply_steer
 
     CC.applyAccel = apply_accel
