@@ -30,11 +30,11 @@ class CarInterface(CarInterfaceBase):
     ret = CarInterfaceBase.get_std_params(candidate, fingerprint, has_relay)
 
     ret.carName = "hyundai"
-    ret.safetyModel = car.CarParams.SafetyModel.hyundaiLegacy
-    if candidate in [CAR.GRANDEUR_HEV]:
-      ret.safetyModel = car.CarParams.SafetyModel.hyundaiCommunity
-    elif candidate in [CAR.SONATA]:
-      ret.safetyModel = car.CarParams.SafetyModel.hyundai
+    ret.safetyModel = car.CarParams.SafetyModel.hyundaiCommunity
+    # if candidate in [CAR.GRANDEUR_HEV]:
+    #   ret.safetyModel = car.CarParams.SafetyModel.hyundaiCommunity
+    # elif candidate in [CAR.SONATA]:
+    #   ret.safetyModel = car.CarParams.SafetyModel.hyundai
 
     params = Params()
     PidKp = int(params.get('PidKp')) * 0.01
