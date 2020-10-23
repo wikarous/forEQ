@@ -90,7 +90,7 @@ class LanePlanner():
     curvature = sm['controlsState'].curvature
     mode_select = sm['carState'].cruiseState.modeSel
 
-    if mode_select == 3:
+    if mode_select == 3: #편도1차선
       Curv = round(curvature, 3)
       if curvature > 0.001: # left curve
         if Curv > 0.006:
@@ -107,7 +107,7 @@ class LanePlanner():
       self.l_poly[3] += CAMERA_OFFSET_A + lean_offset
       self.r_poly[3] += CAMERA_OFFSET_A + lean_offset
     else:
-      self.l_poly[3] += CAMERA_OFFSET
+      self.l_poly[3] += CAMERA_OFFSET - 0.02
       self.r_poly[3] += CAMERA_OFFSET
 
     # Find current lanewidth
