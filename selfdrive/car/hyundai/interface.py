@@ -158,8 +158,8 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.lqr.k = [-105., 451.]
       ret.lateralTuning.lqr.l = [0.25, 0.318]
       ret.lateralTuning.lqr.dcGain = DcGain
-      ret.steerMaxV = [255, LqrSteerMaxV]
-      ret.steerMaxBP = [0., 22.] # 11m/S = 40km/h, 14m/S = 50km/h, 22m/S = 79km/h
+      ret.steerMaxV = [0.8, LqrSteerMaxV]
+      ret.steerMaxBP = [5., 11.] # 5m/S = 18km/h, 11m/S = 40km/h, 14m/S = 50km/h, 22m/S = 79km/h
 
     ret.centerToFront = ret.wheelbase * 0.4
 
