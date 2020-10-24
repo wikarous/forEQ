@@ -622,7 +622,7 @@ def main():
     ("SteerRatioAdj", "135"),
     ("SteerActuatorDelayAdj", "25"),
     ("SteerRateCostAdj", "55"),
-    ("SteerLimitTimerAdj", "40"),
+    ("SteerLimitTimerAdj", "80"),
     ("TireStiffnessFactorAdj", "50"),
     ("SteerMaxAdj", "380"),
     ("SteerDeltaUpAdj", "3"),
@@ -631,6 +631,14 @@ def main():
     ("OpkrBatteryChargingControl", "1"),
     ("OpkrBatteryChargingMin", "70"),
     ("OpkrBatteryChargingMax", "80"),
+    ("OpkrUiOpen", "0"),
+    ("OpkrDriveOpen", "0"),
+    ("OpkrTuneOpen", "0"),
+    ("OpkrControlOpen", "0"),
+    ("LeftCurvOffsetAdj", "0"),
+    ("RightCurvOffsetAdj", "0"),
+    ("DebugUi1", "0"),
+    ("DebugUi2", "0"),    
   ]
 
   # set unset params
