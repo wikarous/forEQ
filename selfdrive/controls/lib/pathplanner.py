@@ -315,9 +315,9 @@ class PathPlanner():
       self.angle_steers_des_mpc = m_angle_steers
 
     # Hoya : 가변 sR rate_cost 
-    self.sr_boost_bp = [ 10.0, 15.0, 20.0, 30.0, 50.0]
-    self.sR_Cost     = [ 1.00, 0.75, 0.60, 0.30, 0.20] 
-    steerRateCost  = interp(abs(angle_steers), self.sr_boost_bp, self.sR_Cost)
+    #self.sr_boost_bp = [ 10.0, 15.0, 20.0, 30.0, 50.0]
+    #self.sR_Cost     = [ 1.00, 0.75, 0.60, 0.30, 0.20] 
+    #steerRateCost  = interp(abs(angle_steers), self.sr_boost_bp, self.sR_Cost)
 
     #  Check for infeasable MPC solution
     mpc_nans = any(math.isnan(x) for x in self.mpc_solution[0].delta)
