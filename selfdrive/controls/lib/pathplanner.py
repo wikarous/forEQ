@@ -73,7 +73,7 @@ class PathPlanner():
       self.lane_change_auto_delay = 1.5
     elif int(Params().get('OpkrAutoLaneChangeDelay')) == 4:
       self.lane_change_auto_delay = 2.0
-
+    self.trRapidCurv = trace1.Loger("079_OPKR_RapidCurv")   
     self.lane_change_wait_timer = 0.0
     self.lane_change_state = LaneChangeState.off
     self.lane_change_direction = LaneChangeDirection.none
@@ -126,7 +126,7 @@ class PathPlanner():
   def update(self, sm, pm, CP, VM):
     limit_steers1 = 0
     limit_steers2 = 0
-
+    debug_status = 0
     v_ego = sm['carState'].vEgo
     angle_steers = sm['carState'].steeringAngle
     active = sm['controlsState'].active
@@ -268,11 +268,13 @@ class PathPlanner():
     delta_steer = org_angle_steers_des - angle_steers
 
     if self.lane_change_state == LaneChangeState.laneChangeStarting:
+      debug_status = 0
       xp = [40,70]
       fp2 = [3,8]
       limit_steers = interp( v_ego_kph, xp, fp2 )
       self.angle_steers_des_mpc = self.limit_ctrl( org_angle_steers_des, limit_steers, angle_steers )      
     elif steeringPressed:
+      debug_status = 1
       if angle_steers > 10 and steeringTorque > 0:
         delta_steer = max( delta_steer, 0 )
         delta_steer = min( delta_steer, DST_ANGLE_LIMIT )
@@ -282,6 +284,7 @@ class PathPlanner():
         delta_steer = max( delta_steer, -DST_ANGLE_LIMIT )        
         self.angle_steers_des_mpc = angle_steers + delta_steer
       else:
+        debug_status = 2
         if steeringTorque < 0:  # right
           if delta_steer > 0:
             self.angle_steers_des_mpc = self.limit_ctrl( org_angle_steers_des, DST_ANGLE_LIMIT, angle_steers )
@@ -289,21 +292,27 @@ class PathPlanner():
           if delta_steer < 0:
             self.angle_steers_des_mpc = self.limit_ctrl( org_angle_steers_des, DST_ANGLE_LIMIT, angle_steers )
     elif v_ego_kph < 15: 
+      debug_status = 3
     # 저속 와리가리 제어.  
       xp = [5,10,15]
       fp2 = [3,5,7]
       limit_steers = interp( v_ego_kph, xp, fp2 )
       self.angle_steers_des_mpc = self.limit_ctrl( org_angle_steers_des, limit_steers, angle_steers )
     elif v_ego_kph > 85: 
+      debug_status = 4
       pass
     elif abs(angle_steers) > 20: 
     # #최대 허용 조향각 제어 로직 1.  
+      debug_status = 5
       xp = [-40,-30,-20,-10,-5,0,5,10,20,30,40]    # 5=>약12도, 10=>28 15=>35, 30=>52
       fp1 = [ 3, 5, 7, 9,11,13,15,17,15,12,10]    # +
       fp2 = [10,12,15,17,15,13,11, 9, 7, 5, 3]    # -
       limit_steers1 = interp( model_sum, xp, fp1 )  # +
       limit_steers2 = interp( model_sum, xp, fp2 )  # -
       self.angle_steers_des_mpc = self.limit_ctrl1( org_angle_steers_des, limit_steers1, limit_steers2, angle_steers )
+      
+    str1 = '#/{} CVs/{} LS1/{} LS2/{} Ang/{} oDES/{} delta1/{} fDES/{} '.format(   
+              debug_status, model_sum, limit_steers1, limit_steers2, angle_steers, org_angle_steers_des, delta_steer, self.angle_steers_des_mpc)
 
     # Conan : 최대 허용 조향각 제어 로직 2.  
     delta_steer2 = self.angle_steers_des_mpc - angle_steers
@@ -313,6 +322,10 @@ class PathPlanner():
     elif delta_steer2 < -DST_ANGLE_LIMIT:
       m_angle_steers = angle_steers - DST_ANGLE_LIMIT
       self.angle_steers_des_mpc = m_angle_steers
+
+    str2 = 'delta2/{} fDES2/{}'.format(   
+            delta_steer2, self.angle_steers_des_mpc)
+    self.trRapidCurv.add( str1 + str2 )        
 
     # Hoya : 가변 sR rate_cost 
     #self.sr_boost_bp = [ 10.0, 15.0, 20.0, 30.0, 50.0]
