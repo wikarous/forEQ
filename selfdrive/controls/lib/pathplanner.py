@@ -291,7 +291,7 @@ class PathPlanner():
         elif steeringTorque > 0:  # left
           if delta_steer < 0:
             self.angle_steers_des_mpc = self.limit_ctrl( org_angle_steers_des, DST_ANGLE_LIMIT, angle_steers )
-    elif v_ego_kph < 15: 
+    elif v_ego_kph < 15 & abs(angle_steers) < 5 : 
       debug_status = 3
     # 저속 와리가리 제어.  
       xp = [5,10,15]
@@ -336,7 +336,7 @@ class PathPlanner():
     mpc_nans = any(math.isnan(x) for x in self.mpc_solution[0].delta)
     t = sec_since_boot()
     if mpc_nans:
-      self.libmpc.init(MPC_COST_LAT.PATH, MPC_COST_LAT.LANE, MPC_COST_LAT.HEADING, CP.steerRateCost) # CP.steerRateCost > steerRateCost
+      self.libmpc.init(MPC_COST_LAT.PATH, MPC_COST_LAT.LANE, MPC_COST_LAT.HEADING, CP.steerRateCost) # CP.steerRateCost < steerRateCost
       self.cur_state[0].delta = math.radians(angle_steers - angle_offset) / VM.sR
 
       if t > self.last_cloudlog_t + 5.0:
