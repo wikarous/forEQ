@@ -107,7 +107,6 @@ class LanePlanner():
     Curv = round(curvature, 3)
 
     if mode_select == 3:
-      Curv = round(curvature, 3)
       if curvature >= 0.001: # left curve
         if Curv > 0.006:
           Curv = 0.006
