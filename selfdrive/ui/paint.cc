@@ -473,12 +473,10 @@ static void ui_draw_vision_maxspeed(UIState *s) {
   ui_draw_rect(s->vg, viz_maxspeed_x, viz_maxspeed_y, viz_maxspeed_w, viz_maxspeed_h, COLOR_BLACK_ALPHA(100), 30);
 
   // Draw Border
+  NVGcolor color = COLOR_WHITE_ALPHA(100);
   if (s->status == STATUS_ENGAGED) {
-    NVGcolor color = COLOR_GREEN_ALPHA(100);
-  } else {
-    NVGcolor color = COLOR_WHITE_ALPHA(100);
-  }
-  
+    color = nvgRGBA(0, 100, 0, 255); //green
+  } 
   ui_draw_rect(s->vg, viz_maxspeed_x, viz_maxspeed_y, viz_maxspeed_w, viz_maxspeed_h, color, 20, 10);
 
   nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
