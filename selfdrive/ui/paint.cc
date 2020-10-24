@@ -474,7 +474,7 @@ static void ui_draw_vision_maxspeed(UIState *s) {
 
   // Draw Border
   if (s->status == STATUS_ENGAGED) {
-    color = nvgRGBA(0, 100, 0, 255); //green
+    NVGcolor color = COLOR_GREEN_ALPHA(100);
   } else {
     NVGcolor color = COLOR_WHITE_ALPHA(100);
   }
