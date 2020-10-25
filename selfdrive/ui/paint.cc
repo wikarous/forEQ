@@ -428,8 +428,8 @@ static void ui_draw_vision_lanes(UIState *s) {
     right_green_lvl = int(255 - (0.4 - scene->model.getRightLane().getProb()) * 2.5 * 255);
   }
 
-  NVGcolor colorLeft = nvgRGBA (left_red_lvl, left_green_lvl, left_blue_lvl, 255);
-  NVGcolor colorRight = nvgRGBA (right_red_lvl, right_green_lvl, right_blue_lvl, 255);
+  colorLeft = nvgRGBA (left_red_lvl, left_green_lvl, left_blue_lvl, 255);
+  colorRight = nvgRGBA (right_red_lvl, right_green_lvl, right_blue_lvl, 255);
 
   // Draw left lane edge
   ui_draw_lane(s, pvd, colorLeft);
