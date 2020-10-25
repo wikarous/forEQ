@@ -470,12 +470,12 @@ static void ui_draw_vision_maxspeed(UIState *s) {
   viz_maxspeed_xo = 0;
 
   // Draw Background
-  ui_draw_rect(s->vg, viz_maxspeed_x, viz_maxspeed_y, viz_maxspeed_w, viz_maxspeed_h, COLOR_BLACK_ALPHA(100), 30);
+  ui_draw_rect(s->vg, viz_maxspeed_x, viz_maxspeed_y, viz_maxspeed_w, viz_maxspeed_h, COLOR_BLACK_ALPHA(is_cruise_set ? 200 : 100), 30);
 
   // Draw Border
   NVGcolor color = COLOR_WHITE_ALPHA(100);
-  if (s->status == STATUS_ENGAGED) {
-    color = nvgRGBA(0, 100, 0, 255); //green
+  if (is_cruise_set){  //(s->status == STATUS_ENGAGED) {
+    color = nvgRGBA(0, 150, 0, 200); //green
   } 
   ui_draw_rect(s->vg, viz_maxspeed_x, viz_maxspeed_y, viz_maxspeed_w, viz_maxspeed_h, color, 20, 10);
 
@@ -592,14 +592,14 @@ static void ui_draw_debug(UIState *s)
 
   nvgFontSize(s->vg, 45);
   if (s->scene.params.nDebugUi2 == 1) {
-    ui_print( s, ui_viz_rx, ui_viz_ry+0,  "aO:%.2f, %.2f", scene.liveParams.angleOffset, scene.pathPlan.angleOffset );
-    ui_print( s, ui_viz_rx, ui_viz_ry+50, "aA:%.2f", scene.liveParams.angleOffsetAverage );
-    ui_print( s, ui_viz_rx, ui_viz_ry+100, "sR:%.2f, %.2f", scene.liveParams.steerRatio, scene.pathPlan.steerRatio );
-    ui_print( s, ui_viz_rx, ui_viz_ry+150, "aD:%.2f", scene.pathPlan.steerActuatorDelay );
-    ui_print( s, ui_viz_rx, ui_viz_ry+200, "sF:%.2f", scene.liveParams.stiffnessFactor );
-    ui_print( s, ui_viz_rx, ui_viz_ry+250, "curv:%.4f", scene.curvature );
-    ui_print( s, ui_viz_rx, ui_viz_ry+800, "LeftLane(%%) LeftPoly(%%)  LaneWidth  RightPoly(%%) RightLane(%%)");
-    ui_print( s, ui_viz_rx, ui_viz_ry+850, "       %5.1f               %4.1f                  %4.2f                  %4.1f               %5.1f", 
+    ui_print( s, ui_viz_rx, ui_viz_ry+0, "curv:%.4f", scene.curvature );
+    ui_print( s, ui_viz_rx, ui_viz_ry+50, "sR:%.2f, %.2f", scene.liveParams.steerRatio, scene.pathPlan.steerRatio );
+    ui_print( s, ui_viz_rx, ui_viz_ry+100,  "aO:%.2f, %.2f", scene.liveParams.angleOffset, scene.pathPlan.angleOffset );
+    ui_print( s, ui_viz_rx, ui_viz_ry+150, "aA:%.2f", scene.liveParams.angleOffsetAverage );
+    ui_print( s, ui_viz_rx, ui_viz_ry+200, "aD:%.2f", scene.pathPlan.steerActuatorDelay );
+    ui_print( s, ui_viz_rx, ui_viz_ry+250, "sF:%.2f", scene.liveParams.stiffnessFactor );
+    ui_print( s, ui_viz_rx, ui_viz_ry+750, "LeftLane(%%) LeftPoly(%%)  LaneWidth  RightPoly(%%) RightLane(%%)");
+    ui_print( s, ui_viz_rx, ui_viz_ry+800, "       %5.1f               %4.1f                  %4.2f                  %4.1f               %5.1f", 
       scene.pathPlan.lProb*100, (scene.pathPlan.lPoly/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100, scene.pathPlan.laneWidth, (abs(scene.pathPlan.rPoly)/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100, scene.pathPlan.rProb*100 ); 
 
   }
