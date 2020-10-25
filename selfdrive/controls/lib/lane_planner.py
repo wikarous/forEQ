@@ -48,10 +48,10 @@ def calc_d_poly(l_poly, r_poly, p_poly, l_prob, r_prob, lane_width, v_ego):
   lr_prob = l_prob + r_prob - l_prob * r_prob
 
   # 양민
-  if lr_prob > 0.7: # 차선추종 강화 로직
-    lr_prob = max(0.95, lr_prob)
-  elif lr_prob > 0.575 and l_prob > 0.2 and r_prob > 0.2 :
-    lr_prob = max(0.875, lr_prob)
+  # if lr_prob > 0.7: # 차선추종 강화 로직
+  #   lr_prob = max(0.95, lr_prob)
+  # elif lr_prob > 0.575 and l_prob > 0.2 and r_prob > 0.2 :
+  #   lr_prob = max(0.875, lr_prob)
   # neokii
   #if lr_prob > 0.65:
   #  lr_prob = min(lr_prob * 1.35, 1.0)
@@ -125,20 +125,20 @@ class LanePlanner():
       leftCurvOffsetAdj = int(Params().get('LeftCurvOffsetAdj'))
       rightCurvOffsetAdj = int(Params().get('RightCurvOffsetAdj'))
       if curvature >= 0.001 and leftCurvOffsetAdj < 0: # left curve
-        if Curv > 0.003:
-          Curv = 0.003
+        if Curv > 0.006:
+          Curv = 0.006
         lean_offset = (-leftCurvOffsetAdj * 0.01) + (Curv * (-leftCurvOffsetAdj * 5)) #move the car to left at left curve
       elif curvature >= 0.001 and leftCurvOffsetAdj > 0: # left curve
-        if Curv > 0.003:
-          Curv = 0.003
+        if Curv > 0.006:
+          Curv = 0.006
         lean_offset = (-leftCurvOffsetAdj * 0.01) + (Curv * (-leftCurvOffsetAdj * 5)) #move the car to right at left curve
       elif curvature <= -0.001 and rightCurvOffsetAdj < 0: # right curve
-        if Curv < -0.003:
-          Curv = -0.003
+        if Curv < -0.006:
+          Curv = -0.006
         lean_offset = (-rightCurvOffsetAdj * 0.01) + (-Curv * (-rightCurvOffsetAdj * 5)) #move the car to left at right curve
       elif curvature <= -0.001 and rightCurvOffsetAdj > 0: # right curve
-        if Curv < -0.003:
-          Curv = -0.003
+        if Curv < -0.006:
+          Curv = -0.006
         lean_offset = (-rightCurvOffsetAdj * 0.01) + (-Curv * (-rightCurvOffsetAdj * 5)) #move the car to right at right curve
       else:
         lean_offset = 0
@@ -175,6 +175,7 @@ class LanePlanner():
     # Don't exit dive
     if abs(self.l_poly[3] - self.r_poly[3]) > self.lane_width:
       self.r_prob = self.r_prob / interp(self.l_prob, [0, 1], [1, 3])
+
 
     self.d_poly = calc_d_poly(self.l_poly, self.r_poly, self.p_poly, self.l_prob, self.r_prob, self.lane_width, v_ego)
 

@@ -627,7 +627,7 @@ def main():
     ("SteerMaxAdj", "380"),
     ("SteerDeltaUpAdj", "3"),
     ("SteerDeltaDownAdj", "7"),
-    ("SteerMaxvAdj", "15"),
+    ("SteerMaxvAdj", "10"),
     ("OpkrBatteryChargingControl", "1"),
     ("OpkrBatteryChargingMin", "70"),
     ("OpkrBatteryChargingMax", "80"),
@@ -638,7 +638,7 @@ def main():
     ("LeftCurvOffsetAdj", "0"),
     ("RightCurvOffsetAdj", "0"),
     ("DebugUi1", "0"),
-    ("DebugUi2", "0"),    
+    ("DebugUi2", "0"),
   ]
 
   # set unset params

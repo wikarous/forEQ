@@ -301,8 +301,8 @@ class CarController():
         self.lkas_switch = "-"
 
 
-      str_log2 = '주행모드={:s}  MDPS상태={:s}  LKAS버튼={:s}'.format( self.steer_mode, self.mdps_status, self.lkas_switch )
-      trace1.printf2( '{}'.format( str_log2 ) )
+      str_log3 = '주행모드={:s}  MDPS상태={:s}  LKAS버튼={:s}'.format( self.steer_mode, self.mdps_status, self.lkas_switch )
+      trace1.printf2( '{}'.format( str_log3 ) )
 
 
     if pcm_cancel_cmd and self.longcontrol:

@@ -1,22 +1,17 @@
 #!/usr/bin/env python3
 """ROS has a parameter server, we have files.
-
 The parameter store is a persistent key value store, implemented as a directory with a writer lock.
 On Android, we store params under params_dir = /data/params. The writer lock is a file
 "<params_dir>/.lock" taken using flock(), and data is stored in a directory symlinked to by
 "<params_dir>/d".
-
 Each key, value pair is stored as a file with named <key> with contents <value>, located in
   <params_dir>/d/<key>
-
 Readers of a single key can just open("<params_dir>/d/<key>") and read the file contents.
 Readers who want a consistent snapshot of multiple keys should take the lock.
-
 Writers should take the lock before modifying anything. Writers should also leave the DB in a
 consistent state after a crash. The implementation below does this by copying all params to a temp
 directory <params_dir>/<tmp>, then atomically symlinking <params_dir>/<d> to <params_dir>/<tmp>
 before deleting the old <params_dir>/<d> directory.
-
 Writers that only modify a single key can simply take the lock, then swap the corresponding value
 file in place without messing with <params_dir>/d.
 """
@@ -153,7 +148,7 @@ keys = {
   "LeftCurvOffsetAdj": [TxType.PERSISTENT],
   "RightCurvOffsetAdj": [TxType.PERSISTENT],
   "DebugUi1": [TxType.PERSISTENT],
-  "DebugUi2": [TxType.PERSISTENT],  
+  "DebugUi2": [TxType.PERSISTENT],
 }
 
 
@@ -437,7 +432,6 @@ class Params():
     """
     Warning: This function blocks until the param is written to disk!
     In very rare cases this can take over a second, and your code will hang.
-
     Use the put_nonblocking helper function in time sensitive code, but
     in general try to avoid writing params as much as possible.
     """
@@ -456,3 +450,4 @@ def put_nonblocking(key, val):
   t = threading.Thread(target=f, args=(key, val))
   t.start()
   return t
+  

@@ -56,7 +56,3 @@ class Loger:
                     pass
                 finally:  # try end 
                     pass       
-
-
-
-

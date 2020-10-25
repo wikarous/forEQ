@@ -119,7 +119,7 @@ typedef struct UIScene {
   std::string alertTextMsg2;
   std::string alert_type;
   cereal::ControlsState::AlertSize alert_size;
-  float awareness_status;  
+  float awareness_status;
 
   bool  brakePress;
   bool recording;
@@ -135,7 +135,7 @@ typedef struct UIScene {
   float steerRatio;
   bool brakeLights;
   float angleSteersDes;
-  float curvature;  
+  float curvature;
   bool steerOverride;
   float output_scale; 
   float cpu0Temp;
@@ -198,7 +198,7 @@ typedef struct UIScene {
     int nOpkrUIBrightness;
     int nOpkrUIVolumeBoost;
     int nDebugUi1;
-    int nDebugUi2;    
+    int nDebugUi2;
   } params;
 } UIScene;
 
