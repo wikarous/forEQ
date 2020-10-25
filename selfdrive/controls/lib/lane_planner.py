@@ -124,22 +124,22 @@ class LanePlanner():
     elif int(Params().get('LeftCurvOffsetAdj')) != 0 or int(Params().get('RightCurvOffsetAdj')) != 0:
       leftCurvOffsetAdj = int(Params().get('LeftCurvOffsetAdj'))
       rightCurvOffsetAdj = int(Params().get('RightCurvOffsetAdj'))
-      if curvature >= 0.001 and leftCurvOffsetAdj < 0: # left curve 0.001=2.6도
+      if curvature >= 0.001 and leftCurvOffsetAdj < 0: # left curve(0.001=2.6도 이상)이고 좌커브설정값을 - 값으로 주면
         if Curv > 0.006:
           Curv = 0.006
-        lean_offset = (-leftCurvOffsetAdj * 0.01) + (Curv * (-leftCurvOffsetAdj * 5)) #move the car to left at left curve
-      elif curvature >= 0.001 and leftCurvOffsetAdj > 0: # left curve
+        lean_offset = (-leftCurvOffsetAdj * 0.01) + (Curv * (-leftCurvOffsetAdj * 5)) #move the car to left at left curve (좌커브시 왼쪽으로 이동)
+      elif curvature >= 0.001 and leftCurvOffsetAdj > 0: # left curve(0.001=2.6도 이상)이고 좌커브설정값을 + 값으로 주면
         if Curv > 0.006:
           Curv = 0.006
-        lean_offset = (-leftCurvOffsetAdj * 0.01) + (Curv * (-leftCurvOffsetAdj * 5)) #move the car to right at left curve
-      elif curvature <= -0.001 and rightCurvOffsetAdj < 0: # right curve
+        lean_offset = (-leftCurvOffsetAdj * 0.01) + (Curv * (-leftCurvOffsetAdj * 5)) #move the car to right at left curve (좌커브시 오른쪽으로 이동)
+      elif curvature <= -0.001 and rightCurvOffsetAdj < 0: # right curve(0.001=2.6도 이상)이고 우커브설정값을 - 값으로 주면
         if Curv < -0.006:
           Curv = -0.006
-        lean_offset = (-rightCurvOffsetAdj * 0.01) + (-Curv * (-rightCurvOffsetAdj * 5)) #move the car to left at right curve
-      elif curvature <= -0.001 and rightCurvOffsetAdj > 0: # right curve
+        lean_offset = (-rightCurvOffsetAdj * 0.01) + (-Curv * (-rightCurvOffsetAdj * 5)) #move the car to left at right curve (우커브시 왼쪽으로 이동)
+      elif curvature <= -0.001 and rightCurvOffsetAdj > 0: # right curve(0.001=2.6도 이상)이고 우커브설정값을 + 값으로 주면
         if Curv < -0.006:
           Curv = -0.006
-        lean_offset = (-rightCurvOffsetAdj * 0.01) + (-Curv * (-rightCurvOffsetAdj * 5)) #move the car to right at right curve
+        lean_offset = (-rightCurvOffsetAdj * 0.01) + (-Curv * (-rightCurvOffsetAdj * 5)) #move the car to right at right curve (우커브시 오른쪽으로 이동)
       else:
         lean_offset = 0
     # only offset left and right lane lines; offsetting p_poly does not make sense
