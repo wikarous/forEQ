@@ -176,7 +176,6 @@ class LanePlanner():
     if abs(self.l_poly[3] - self.r_poly[3]) > self.lane_width:
       self.r_prob = self.r_prob / interp(self.l_prob, [0, 1], [1, 3])
 
-
     self.d_poly = calc_d_poly(self.l_poly, self.r_poly, self.p_poly, self.l_prob, self.r_prob, self.lane_width, v_ego)
 
   def update(self, v_ego, md, sm):
