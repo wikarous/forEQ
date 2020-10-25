@@ -125,20 +125,20 @@ class LanePlanner():
       leftCurvOffsetAdj = int(Params().get('LeftCurvOffsetAdj'))
       rightCurvOffsetAdj = int(Params().get('RightCurvOffsetAdj'))
       if curvature >= 0.001 and leftCurvOffsetAdj < 0: # left curve
-        if Curv > 0.006:
-          Curv = 0.006
+        if Curv > 0.003:
+          Curv = 0.003
         lean_offset = (-leftCurvOffsetAdj * 0.01) + (Curv * (-leftCurvOffsetAdj * 5)) #move the car to left at left curve
       elif curvature >= 0.001 and leftCurvOffsetAdj > 0: # left curve
-        if Curv > 0.006:
-          Curv = 0.006
+        if Curv > 0.003:
+          Curv = 0.003
         lean_offset = (-leftCurvOffsetAdj * 0.01) + (Curv * (-leftCurvOffsetAdj * 5)) #move the car to right at left curve
       elif curvature <= -0.001 and rightCurvOffsetAdj < 0: # right curve
-        if Curv < -0.006:
-          Curv = -0.006
+        if Curv < -0.003:
+          Curv = -0.003
         lean_offset = (-rightCurvOffsetAdj * 0.01) + (-Curv * (-rightCurvOffsetAdj * 5)) #move the car to left at right curve
       elif curvature <= -0.001 and rightCurvOffsetAdj > 0: # right curve
-        if Curv < -0.006:
-          Curv = -0.006
+        if Curv < -0.003:
+          Curv = -0.003
         lean_offset = (-rightCurvOffsetAdj * 0.01) + (-Curv * (-rightCurvOffsetAdj * 5)) #move the car to right at right curve
       else:
         lean_offset = 0
