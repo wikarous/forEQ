@@ -291,7 +291,7 @@ class PathPlanner():
         elif steeringTorque > 0:  # left
           if delta_steer < 0:
             self.angle_steers_des_mpc = self.limit_ctrl( org_angle_steers_des, DST_ANGLE_LIMIT, angle_steers )
-    elif v_ego_kph < 15 & abs(float(angle_steers)) < 5.0 : 
+    elif v_ego_kph < 15 and abs(angle_steers) < 5.0 : 
       debug_status = 3
     # 저속 와리가리 제어.  
       xp = [5,10,15]
