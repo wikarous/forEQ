@@ -13,6 +13,7 @@ class Spdctrl(SpdController):
         self.cv_Raio = 0.4
         self.cv_Dist = -5
         self.steer_mode = ""
+        self.cruise_gap = 0.0        
 
     def update_lead(self, CS,  dRel, yRel, vRel):
         lead_set_speed = int(round(self.cruise_set_speed_kph))
@@ -146,6 +147,7 @@ class Spdctrl(SpdController):
             self.steer_mode = "차간ONLY"
         elif CS.out.cruiseState.modeSel == 3:
             self.steer_mode = "편도1차선"
+
         if self.cruise_gap != CS.cruiseGapSet:
             self.cruise_gap = CS.cruiseGapSet
 
