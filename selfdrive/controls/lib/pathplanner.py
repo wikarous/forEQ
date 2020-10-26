@@ -19,7 +19,7 @@ LOG_MPC = os.environ.get('LOG_MPC', True)
 
 LANE_CHANGE_SPEED_MIN = int(Params().get('OpkrLaneChangeSpeed')) * CV.KPH_TO_MS
 LANE_CHANGE_TIME_MAX = 10.
-DST_ANGLE_LIMIT = 7.
+DST_ANGLE_LIMIT = 5.
 
 DESIRES = {
   LaneChangeDirection.none: {
@@ -307,6 +307,9 @@ class PathPlanner():
       xp = [-40,-30,-20,-10,-5,0,5,10,20,30,40]    # 5=>약12도, 10=>28 15=>35, 30=>52
       fp1 = [ 3, 5, 7, 9,11,13,15,17,15,12,10]    # +
       fp2 = [10,12,15,17,15,13,11, 9, 7, 5, 3]    # -
+      # xp = [-40,-30,-20,-10,-5,0,5,10,20,30,40]    # 5=>약12도, 10=>28 15=>35, 30=>52
+      # fp1 = [ 3, 5, 7, 9,11,13,15,17,15,12,10]    # +
+      # fp2 = [10,12,15,17,15,13,11, 9, 7, 5, 3]    # -      
       limit_steers1 = interp( model_sum, xp, fp1 )  # +
       limit_steers2 = interp( model_sum, xp, fp2 )  # -
       self.angle_steers_des_mpc = self.limit_ctrl1( org_angle_steers_des, limit_steers1, limit_steers2, angle_steers )
@@ -328,15 +331,15 @@ class PathPlanner():
     self.trRapidCurv.add( str1 + str2 )        
 
     # Hoya : 가변 sR rate_cost 
-    #self.sr_boost_bp = [ 10.0, 15.0, 20.0, 30.0, 50.0]
-    #self.sR_Cost     = [ 1.00, 0.75, 0.60, 0.30, 0.20] 
-    #steerRateCost  = interp(abs(angle_steers), self.sr_boost_bp, self.sR_Cost)
+    self.sr_boost_bp = [ 10.0, 15.0, 20.0, 30.0, 50.0]
+    self.sR_Cost     = [ 1.00, 0.75, 0.60, 0.30, 0.20] 
+    steerRateCost  = interp(abs(angle_steers), self.sr_boost_bp, self.sR_Cost)
 
     #  Check for infeasable MPC solution
     mpc_nans = any(math.isnan(x) for x in self.mpc_solution[0].delta)
     t = sec_since_boot()
     if mpc_nans:
-      self.libmpc.init(MPC_COST_LAT.PATH, MPC_COST_LAT.LANE, MPC_COST_LAT.HEADING, CP.steerRateCost) # CP.steerRateCost < steerRateCost
+      self.libmpc.init(MPC_COST_LAT.PATH, MPC_COST_LAT.LANE, MPC_COST_LAT.HEADING, steerRateCost) # CP.steerRateCost < steerRateCost
       self.cur_state[0].delta = math.radians(angle_steers - angle_offset) / VM.sR
 
       if t > self.last_cloudlog_t + 5.0:
