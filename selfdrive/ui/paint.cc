@@ -622,12 +622,13 @@ static void ui_draw_debug(UIState *s)
 
   nvgFontSize(s->vg, 45);
   if (s->scene.params.nDebugUi2 == 1) {
-    ui_print( s, ui_viz_rx, ui_viz_ry+0, "curv:%.4f", scene.curvature );
-    ui_print( s, ui_viz_rx, ui_viz_ry+50, "sR:%.2f, %.2f", scene.liveParams.steerRatio, scene.pathPlan.steerRatio );
-    ui_print( s, ui_viz_rx, ui_viz_ry+100,  "aO:%.2f, %.2f", scene.liveParams.angleOffset, scene.pathPlan.angleOffset );
-    ui_print( s, ui_viz_rx, ui_viz_ry+150, "aA:%.2f", scene.liveParams.angleOffsetAverage );
-    ui_print( s, ui_viz_rx, ui_viz_ry+200, "aD:%.2f", scene.pathPlan.steerActuatorDelay );
-    ui_print( s, ui_viz_rx, ui_viz_ry+250, "sF:%.2f", scene.liveParams.stiffnessFactor );
+    ui_print( s, ui_viz_rx, ui_viz_ry+650, "                                curv"); //:%.4f", scene.curvature );
+    ui_print( s, ui_viz_rx, ui_viz_ry+700, "                               %.4f", scene.curvature );
+    // ui_print( s, ui_viz_rx, ui_viz_ry+50, "sR:%.2f, %.2f", scene.liveParams.steerRatio, scene.pathPlan.steerRatio );
+    // ui_print( s, ui_viz_rx, ui_viz_ry+100,  "aO:%.2f, %.2f", scene.liveParams.angleOffset, scene.pathPlan.angleOffset );
+    // ui_print( s, ui_viz_rx, ui_viz_ry+150, "aA:%.2f", scene.liveParams.angleOffsetAverage );
+    // ui_print( s, ui_viz_rx, ui_viz_ry+200, "aD:%.2f", scene.pathPlan.steerActuatorDelay );
+    // ui_print( s, ui_viz_rx, ui_viz_ry+250, "sF:%.2f", scene.liveParams.stiffnessFactor );
     ui_print( s, ui_viz_rx, ui_viz_ry+750, "              LeftPoly(%%)    LaneWidth    RightPoly(%%)");
     ui_print( s, ui_viz_rx, ui_viz_ry+800, "                        %4.1f                    %4.2f                    %4.1f",
       (scene.pathPlan.lPoly/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100, scene.pathPlan.laneWidth, (abs(scene.pathPlan.rPoly)/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100 ); 
@@ -1158,8 +1159,8 @@ static void bb_ui_draw_UI(UIState *s)
 static void ui_draw_vision_car(UIState *s) {
   const UIScene *scene = &s->scene;
   const int car_size = 300;
-  const int car_x_left = (scene->viz_rect.centerX() - 500);
-  const int car_x_right = (scene->viz_rect.centerX() + 500);
+  const int car_x_left = (scene->viz_rect.centerX() - 450);
+  const int car_x_right = (scene->viz_rect.centerX() + 450);
   const int car_y = 500;
   const int car_img_size_w = (car_size * 1);
   const int car_img_size_h = (car_size * 1);
