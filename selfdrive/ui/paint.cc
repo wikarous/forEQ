@@ -622,8 +622,8 @@ static void ui_draw_debug(UIState *s)
 
   nvgFontSize(s->vg, 45);
   if (s->scene.params.nDebugUi2 == 1) {
-    ui_print( s, ui_viz_rx+450, ui_viz_ry+650, "curvature"); //:%.4f", scene.curvature );
-    ui_print( s, ui_viz_rx+460, ui_viz_ry+700, "%.4f", scene.curvature );
+    ui_print( s, ui_viz_rx+480, ui_viz_ry+650, "curvature"); //:%.4f", scene.curvature );
+    ui_print( s, ui_viz_rx+530, ui_viz_ry+700, "%.4f", scene.curvature );
     // ui_print( s, ui_viz_rx, ui_viz_ry+50, "sR:%.2f, %.2f", scene.liveParams.steerRatio, scene.pathPlan.steerRatio );
     // ui_print( s, ui_viz_rx, ui_viz_ry+100,  "aO:%.2f, %.2f", scene.liveParams.angleOffset, scene.pathPlan.angleOffset );
     // ui_print( s, ui_viz_rx, ui_viz_ry+150, "aA:%.2f", scene.liveParams.angleOffsetAverage );
