@@ -1160,7 +1160,7 @@ static void ui_draw_vision_car(UIState *s) {
   const int car_size = 200;
   const int car_x_left = (scene->viz_rect.centerX() - 500);
   const int car_x_right = (scene->viz_rect.centerX() + 500);
-  const int car_y = 400;
+  const int car_y = 500;
   const int car_img_size_w = (car_size * 1);
   const int car_img_size_h = (car_size * 0.95);
   const int car_img_x_left = (car_x_left - (car_img_size_w / 2));
