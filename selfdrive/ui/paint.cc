@@ -628,10 +628,12 @@ static void ui_draw_debug(UIState *s)
     ui_print( s, ui_viz_rx, ui_viz_ry+150, "aA:%.2f", scene.liveParams.angleOffsetAverage );
     ui_print( s, ui_viz_rx, ui_viz_ry+200, "aD:%.2f", scene.pathPlan.steerActuatorDelay );
     ui_print( s, ui_viz_rx, ui_viz_ry+250, "sF:%.2f", scene.liveParams.stiffnessFactor );
-    ui_print( s, ui_viz_rx, ui_viz_ry+750, "LeftLane(%%) LeftPoly(%%)  LaneWidth  RightPoly(%%) RightLane(%%)");
-    ui_print( s, ui_viz_rx, ui_viz_ry+800, "       %5.1f                 %4.1f                   %4.2f                   %4.1f                %5.1f", 
-      scene.pathPlan.lProb*100, (scene.pathPlan.lPoly/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100, scene.pathPlan.laneWidth, (abs(scene.pathPlan.rPoly)/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100, scene.pathPlan.rProb*100 ); 
-
+    ui_print( s, ui_viz_rx, ui_viz_ry+750, "            LeftPoly(%%)  LaneWidth  RightPoly(%%)");
+    ui_print( s, ui_viz_rx, ui_viz_ry+800, "                        %4.1f                   %4.2f                   %4.1f",
+      (scene.pathPlan.lPoly/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100, scene.pathPlan.laneWidth, (abs(scene.pathPlan.rPoly)/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100 ); 
+    // ui_print( s, ui_viz_rx, ui_viz_ry+750, "LeftLane(%%) LeftPoly(%%)  LaneWidth  RightPoly(%%) RightLane(%%)");
+    // ui_print( s, ui_viz_rx, ui_viz_ry+800, "       %5.1f                 %4.1f                   %4.2f                   %4.1f                %5.1f", 
+    //   scene.pathPlan.lProb*100, (scene.pathPlan.lPoly/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100, scene.pathPlan.laneWidth, (abs(scene.pathPlan.rPoly)/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100, scene.pathPlan.rProb*100 ); 
   }
 }
 
@@ -1158,7 +1160,7 @@ static void ui_draw_vision_car(UIState *s) {
   const int car_size = 200;
   const int car_x_left = (scene->viz_rect.centerX() - 500);
   const int car_x_right = (scene->viz_rect.centerX() + 500);
-  const int car_y = 600;
+  const int car_y = 400;
   const int car_img_size_w = (car_size * 1);
   const int car_img_size_h = (car_size * 0.95);
   const int car_img_x_left = (car_x_left - (car_img_size_w / 2));
