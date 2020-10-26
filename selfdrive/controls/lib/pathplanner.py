@@ -19,7 +19,7 @@ LOG_MPC = os.environ.get('LOG_MPC', True)
 
 LANE_CHANGE_SPEED_MIN = int(Params().get('OpkrLaneChangeSpeed')) * CV.KPH_TO_MS
 LANE_CHANGE_TIME_MAX = 10.
-DST_ANGLE_LIMIT = 5.
+DST_ANGLE_LIMIT = 8.
 
 DESIRES = {
   LaneChangeDirection.none: {
