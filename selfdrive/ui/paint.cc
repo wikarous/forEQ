@@ -628,8 +628,8 @@ static void ui_draw_debug(UIState *s)
     ui_print( s, ui_viz_rx, ui_viz_ry+150, "aA:%.2f", scene.liveParams.angleOffsetAverage );
     ui_print( s, ui_viz_rx, ui_viz_ry+200, "aD:%.2f", scene.pathPlan.steerActuatorDelay );
     ui_print( s, ui_viz_rx, ui_viz_ry+250, "sF:%.2f", scene.liveParams.stiffnessFactor );
-    ui_print( s, ui_viz_rx, ui_viz_ry+750, "            LeftPoly(%%)  LaneWidth  RightPoly(%%)");
-    ui_print( s, ui_viz_rx, ui_viz_ry+800, "                        %4.1f                   %4.2f                   %4.1f",
+    ui_print( s, ui_viz_rx, ui_viz_ry+750, "              LeftPoly(%%)    LaneWidth    RightPoly(%%)");
+    ui_print( s, ui_viz_rx, ui_viz_ry+800, "                        %4.1f                    %4.2f                    %4.1f",
       (scene.pathPlan.lPoly/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100, scene.pathPlan.laneWidth, (abs(scene.pathPlan.rPoly)/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100 ); 
     // ui_print( s, ui_viz_rx, ui_viz_ry+750, "LeftLane(%%) LeftPoly(%%)  LaneWidth  RightPoly(%%) RightLane(%%)");
     // ui_print( s, ui_viz_rx, ui_viz_ry+800, "       %5.1f                 %4.1f                   %4.2f                   %4.1f                %5.1f", 
@@ -1157,7 +1157,7 @@ static void bb_ui_draw_UI(UIState *s)
 
 static void ui_draw_vision_car(UIState *s) {
   const UIScene *scene = &s->scene;
-  const int car_size = 200;
+  const int car_size = 300;
   const int car_x_left = (scene->viz_rect.centerX() - 500);
   const int car_x_right = (scene->viz_rect.centerX() + 500);
   const int car_y = 500;
@@ -1167,8 +1167,8 @@ static void ui_draw_vision_car(UIState *s) {
   const int car_img_x_right = (car_x_right - (car_img_size_w / 2));
   const int car_img_y = (car_y - (car_size / 4));
 
-  bool car_valid_left = scene->leftblindspot;
-  bool car_valid_right = scene->rightblindspot;
+  bool car_valid_left = true; //scene->leftblindspot;
+  bool car_valid_right = true; //scene->rightblindspot;
   float car_img_alpha;
 
   if(car_valid_left || car_valid_right) {
