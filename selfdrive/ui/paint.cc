@@ -622,15 +622,15 @@ static void ui_draw_debug(UIState *s)
 
   nvgFontSize(s->vg, 45);
   if (s->scene.params.nDebugUi2 == 1) {
-    ui_print( s, ui_viz_rx, ui_viz_ry+650, "                                curv"); //:%.4f", scene.curvature );
-    ui_print( s, ui_viz_rx, ui_viz_ry+700, "                               %.4f", scene.curvature );
+    ui_print( s, ui_viz_rx+750, ui_viz_ry+650, "curvature"); //:%.4f", scene.curvature );
+    ui_print( s, ui_viz_rx+750, ui_viz_ry+700, "%.4f", scene.curvature );
     // ui_print( s, ui_viz_rx, ui_viz_ry+50, "sR:%.2f, %.2f", scene.liveParams.steerRatio, scene.pathPlan.steerRatio );
     // ui_print( s, ui_viz_rx, ui_viz_ry+100,  "aO:%.2f, %.2f", scene.liveParams.angleOffset, scene.pathPlan.angleOffset );
     // ui_print( s, ui_viz_rx, ui_viz_ry+150, "aA:%.2f", scene.liveParams.angleOffsetAverage );
     // ui_print( s, ui_viz_rx, ui_viz_ry+200, "aD:%.2f", scene.pathPlan.steerActuatorDelay );
     // ui_print( s, ui_viz_rx, ui_viz_ry+250, "sF:%.2f", scene.liveParams.stiffnessFactor );
-    ui_print( s, ui_viz_rx, ui_viz_ry+750, "              LeftPoly(%%)    LaneWidth    RightPoly(%%)");
-    ui_print( s, ui_viz_rx, ui_viz_ry+800, "                        %4.1f                    %4.2f                    %4.1f",
+    ui_print( s, ui_viz_rx+600, ui_viz_ry+750, "LeftPoly(%%)    LaneWidth    RightPoly(%%)");
+    ui_print( s, ui_viz_rx+650, ui_viz_ry+800, "%4.1f                    %4.2f                    %4.1f",
       (scene.pathPlan.lPoly/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100, scene.pathPlan.laneWidth, (abs(scene.pathPlan.rPoly)/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100 ); 
     // ui_print( s, ui_viz_rx, ui_viz_ry+750, "LeftLane(%%) LeftPoly(%%)  LaneWidth  RightPoly(%%) RightLane(%%)");
     // ui_print( s, ui_viz_rx, ui_viz_ry+800, "       %5.1f                 %4.1f                   %4.2f                   %4.1f                %5.1f", 
