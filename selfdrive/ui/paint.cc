@@ -621,7 +621,7 @@ static void ui_draw_debug(UIState *s)
     ui_draw_text(s->vg, 0, 1078, scene.alertTextMsg2.c_str(), 50, COLOR_WHITE_ALPHA(150), s->font_sans_semibold);
   }
 
-  nvgFontSize(s->vg, 45);
+  nvgFontSize(s->vg, 40);
   nvgFillColor(s->vg, COLOR_WHITE_ALPHA(150));  
   if (s->scene.params.nDebugUi2 == 1) {
 
@@ -638,7 +638,7 @@ static void ui_draw_debug(UIState *s)
     nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
     ui_print(s, ui_viz_rx_center, ui_viz_ry+650, "curvature");
     ui_print(s, ui_viz_rx_center, ui_viz_ry+700, "%.4f", scene.curvature);
-    ui_print(s, ui_viz_rx_center, ui_viz_ry+750, " LeftPoly(%%)    LaneWidth    RightPoly(%%)");
+    ui_print(s, ui_viz_rx_center, ui_viz_ry+750, "  LeftPoly(%%)     LaneWidth     RightPoly(%%)");
     ui_print(s, ui_viz_rx_center, ui_viz_ry+800, "%4.1f                    %4.2f                    %4.1f",
        (scene.pathPlan.lPoly/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100, 
         scene.pathPlan.laneWidth, 
