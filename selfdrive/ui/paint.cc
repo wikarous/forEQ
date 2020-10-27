@@ -1158,18 +1158,18 @@ static void bb_ui_draw_UI(UIState *s)
 
 static void ui_draw_vision_car(UIState *s) {
   const UIScene *scene = &s->scene;
-  const int car_size = 300;
+  const int car_size = 280;
   const int car_x_left = (scene->viz_rect.centerX() - 500);
   const int car_x_right = (scene->viz_rect.centerX() + 500);
   const int car_y = 550;
-  const int car_img_size_w = (car_size * 2);
+  const int car_img_size_w = (car_size * 1);
   const int car_img_size_h = (car_size * 1);
   const int car_img_x_left = (car_x_left - (car_img_size_w / 2));
   const int car_img_x_right = (car_x_right - (car_img_size_w / 2));
   const int car_img_y = (car_y - (car_size / 4));
 
-  bool car_valid_left = scene->leftblindspot;
-  bool car_valid_right = scene->rightblindspot;
+  bool car_valid_left = true ; //scene->leftblindspot;
+  bool car_valid_right = true ; //scene->rightblindspot;
   float car_img_alpha;
 
   if(car_valid_left || car_valid_right) {
