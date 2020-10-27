@@ -629,8 +629,8 @@ static void ui_draw_debug(UIState *s)
     // ui_print( s, ui_viz_rx, ui_viz_ry+150, "aA:%.2f", scene.liveParams.angleOffsetAverage );
     // ui_print( s, ui_viz_rx, ui_viz_ry+200, "aD:%.2f", scene.pathPlan.steerActuatorDelay );
     // ui_print( s, ui_viz_rx, ui_viz_ry+250, "sF:%.2f", scene.liveParams.stiffnessFactor );
-    ui_print( s, ui_viz_rx+200, ui_viz_ry+750, "LeftPoly(%%)    LaneWidth    RightPoly(%%)");
-    ui_print( s, ui_viz_rx+250, ui_viz_ry+800, "%4.1f                    %4.2f                    %4.1f",
+    ui_print( s, ui_viz_rx+190, ui_viz_ry+750, "LeftPoly(%%)    LaneWidth    RightPoly(%%)");
+    ui_print( s, ui_viz_rx+200, ui_viz_ry+800, "%4.1f                    %4.2f                    %4.1f",
       (scene.pathPlan.lPoly/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100, scene.pathPlan.laneWidth, (abs(scene.pathPlan.rPoly)/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100 ); 
     // ui_print( s, ui_viz_rx, ui_viz_ry+750, "LeftLane(%%) LeftPoly(%%)  LaneWidth  RightPoly(%%) RightLane(%%)");
     // ui_print( s, ui_viz_rx, ui_viz_ry+800, "       %5.1f                 %4.1f                   %4.2f                   %4.1f                %5.1f", 
