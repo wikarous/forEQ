@@ -301,7 +301,7 @@ class PathPlanner():
     elif v_ego_kph > 85: 
       debug_status = 4
       pass
-    elif abs(angle_steers) > 20: 
+    elif abs(angle_steers) > 30: 
     # #최대 허용 조향각 제어 로직 1.  
       debug_status = 5
       xp = [-40,-30,-20,-10,-5,0,5,10,20,30,40]    # 5=>약12도, 10=>28 15=>35, 30=>52
@@ -331,8 +331,8 @@ class PathPlanner():
     self.trRapidCurv.add( str1 + str2 )        
 
     # Hoya : 가변 sR rate_cost 
-    self.sr_boost_bp = [ 10.0, 15.0, 20.0, 30.0, 50.0]
-    self.sR_Cost     = [ 1.00, 0.75, 0.60, 0.30, 0.20] 
+    self.sr_boost_bp = [ 10.0, 15.0, 20.0, 30.0]
+    self.sR_Cost     = [ 1.00, 0.75, 0.60, 0.30] 
     steerRateCost  = interp(abs(angle_steers), self.sr_boost_bp, self.sR_Cost)
 
     #  Check for infeasable MPC solution
