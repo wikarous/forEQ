@@ -623,7 +623,7 @@ static void ui_draw_debug(UIState *s)
   nvgFontSize(s->vg, 45);
   if (s->scene.params.nDebugUi2 == 1) {
     ui_print( s, ui_viz_rx+480, ui_viz_ry+650, "curvature"); //:%.4f", scene.curvature );
-    ui_print( s, ui_viz_rx+530, ui_viz_ry+700, "%.4f", scene.curvature );
+    ui_print( s, ui_viz_rx+520, ui_viz_ry+700, "%.4f", scene.curvature );
     // ui_print( s, ui_viz_rx, ui_viz_ry+50, "sR:%.2f, %.2f", scene.liveParams.steerRatio, scene.pathPlan.steerRatio );
     // ui_print( s, ui_viz_rx, ui_viz_ry+100,  "aO:%.2f, %.2f", scene.liveParams.angleOffset, scene.pathPlan.angleOffset );
     // ui_print( s, ui_viz_rx, ui_viz_ry+150, "aA:%.2f", scene.liveParams.angleOffsetAverage );
@@ -1168,8 +1168,8 @@ static void ui_draw_vision_car(UIState *s) {
   const int car_img_x_right = (car_x_right - (car_img_size_w / 2));
   const int car_img_y = (car_y - (car_size / 4));
 
-  bool car_valid_left = true ; //scene->leftblindspot;
-  bool car_valid_right = true ; //scene->rightblindspot;
+  bool car_valid_left = scene->leftblindspot;
+  bool car_valid_right = scene->rightblindspot;
   float car_img_alpha;
 
   if(car_valid_left || car_valid_right) {
