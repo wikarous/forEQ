@@ -631,19 +631,18 @@ static void ui_draw_debug(UIState *s)
     ui_print(s, ui_viz_rx, ui_viz_ry+100, ">AOfs:%.2f", scene.liveParams.angleOffset);
     ui_print(s, ui_viz_rx, ui_viz_ry+150, ">AOAVG:%.2f", scene.liveParams.angleOffsetAverage);
     ui_print(s, ui_viz_rx, ui_viz_ry+200, ">SFact:%.2f", scene.liveParams.stiffnessFactor);
-    ui_print(s, ui_viz_rx, ui_viz_ry+300, "ADelay:%.2f", scene.pathPlan.steerActuatorDelay);
-    ui_print(s, ui_viz_rx, ui_viz_ry+350, "OutScale:%.3f", scene.output_scale);
-    ui_print(s, ui_viz_rx, ui_viz_ry+400, "Awareness:%.2f", scene.awareness_status);
+    ui_print(s, ui_viz_rx, ui_viz_ry+250, "ADelay:%.2f", scene.pathPlan.steerActuatorDelay);
+    ui_print(s, ui_viz_rx, ui_viz_ry+300, "OutScale:%.3f", scene.output_scale);
+    ui_print(s, ui_viz_rx, ui_viz_ry+350, "Awareness:%.2f", scene.awareness_status);
 
     nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
-    ui_print( s, ui_viz_rx, ui_viz_ry+650, "curvature"); //:%.4f", scene.curvature );
-    ui_print( s, ui_viz_rx, ui_viz_ry+700, "%.4f", scene.curvature );
-    ui_print( s, ui_viz_rx, ui_viz_ry+750, " LeftPoly(%%)    LaneWidth    RightPoly(%%)");
-    ui_print( s, ui_viz_rx, ui_viz_ry+800, "%4.1f                    %4.2f                    %4.1f",
-      (scene.pathPlan.lPoly/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100, scene.pathPlan.laneWidth, (abs(scene.pathPlan.rPoly)/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100 ); 
-    // ui_print( s, ui_viz_rx, ui_viz_ry+750, "LeftLane(%%) LeftPoly(%%)  LaneWidth  RightPoly(%%) RightLane(%%)");
-    // ui_print( s, ui_viz_rx, ui_viz_ry+800, "       %5.1f                 %4.1f                   %4.2f                   %4.1f                %5.1f", 
-    //   scene.pathPlan.lProb*100, (scene.pathPlan.lPoly/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100, scene.pathPlan.laneWidth, (abs(scene.pathPlan.rPoly)/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100, scene.pathPlan.rProb*100 ); 
+    ui_print(s, ui_viz_rx_center, ui_viz_ry+650, "curvature");
+    ui_print(s, ui_viz_rx_center, ui_viz_ry+700, "%.4f", scene.curvature);
+    ui_print(s, ui_viz_rx_center, ui_viz_ry+750, " LeftPoly(%%)    LaneWidth    RightPoly(%%)");
+    ui_print(s, ui_viz_rx_center, ui_viz_ry+800, "%4.1f                    %4.2f                    %4.1f",
+       (scene.pathPlan.lPoly/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100, 
+        scene.pathPlan.laneWidth, 
+       (abs(scene.pathPlan.rPoly)/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100); 
   }
 }
 
