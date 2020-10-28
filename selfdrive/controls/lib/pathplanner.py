@@ -291,11 +291,11 @@ class PathPlanner():
         elif steeringTorque > 0:  # left
           if delta_steer < 0:
             self.angle_steers_des_mpc = self.limit_ctrl( org_angle_steers_des, DST_ANGLE_LIMIT, angle_steers )
-    elif v_ego_kph < 15 and abs(angle_steers) < 5.0 : 
+    elif v_ego_kph < 20 : #and abs(angle_steers) < 5.0 : 
       debug_status = 3
     # 저속 와리가리 제어.  
       xp = [5,10,20]
-      fp2 = [1,3,5]
+      fp2 = [1,3,7]
       limit_steers = interp( v_ego_kph, xp, fp2 )
       self.angle_steers_des_mpc = self.limit_ctrl( org_angle_steers_des, limit_steers, angle_steers )
     elif v_ego_kph > 85: 
@@ -304,9 +304,11 @@ class PathPlanner():
     elif abs(angle_steers) > 25: 
     # #최대 허용 조향각 제어 로직 1.  
       debug_status = 5
-      xp = [-40,-30,-20,-10,-5,0,5,10,20,30,40]    # 5=>약12도, 10=>28 15=>35, 30=>52
-      fp1 = [ 3, 5, 7, 9,11,13,15,17,15,12,10]    # +
-      fp2 = [10,12,15,17,15,13,11, 9, 7, 5, 3]    # -
+      xp = [-30,-20,-10,-5,0,5,10,20,30]    # 5=>약12도, 10=>28 15=>35, 30=>52
+      fp1 = [ 3, 5, 7, 9,11,13,15,13,11,9]    # +
+      fp2 = [ 9,11,13,15,13,11, 9, 7, 5,3]    # -
+      # fp1 = [ 5, 7, 9,11,13,15,17,15,12]    # +
+      # fp2 = [12,15,17,15,13,11, 9, 7, 5]    # -
       # xp = [-40,-30,-20,-10,-5,0,5,10,20,30,40]    # 5=>약12도, 10=>28 15=>35, 30=>52
       # fp1 = [ 3, 5, 7, 9,11,13,15,17,15,12,10]    # +
       # fp2 = [10,12,15,17,15,13,11, 9, 7, 5, 3]    # -      
