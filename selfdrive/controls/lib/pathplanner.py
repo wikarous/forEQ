@@ -146,8 +146,8 @@ class PathPlanner():
       self.mpc_frame += 1
       if self.mpc_frame % 10 == 0:
         self.new_steerRatio += 0.1
-        if self.new_steerRatio >= 18.0:
-          self.new_steerRatio = 18.0
+        if self.new_steerRatio >= 16.5:
+          self.new_steerRatio = 16.5
         self.mpc_frame = 0
     else:
       self.mpc_frame += 1
