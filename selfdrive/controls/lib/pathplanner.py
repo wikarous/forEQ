@@ -264,73 +264,73 @@ class PathPlanner():
     self.angle_steers_des_mpc = float(math.degrees(delta_desired * VM.sR) + angle_offset)
 
     # Atom 
-    org_angle_steers_des = self.angle_steers_des_mpc
-    delta_steer = org_angle_steers_des - angle_steers
+    # org_angle_steers_des = self.angle_steers_des_mpc
+    # delta_steer = org_angle_steers_des - angle_steers
 
-    if self.lane_change_state == LaneChangeState.laneChangeStarting:
-      debug_status = 0
-      xp = [40,70]
-      fp2 = [5,10]
-      limit_steers = interp( v_ego_kph, xp, fp2 )
-      self.angle_steers_des_mpc = self.limit_ctrl( org_angle_steers_des, limit_steers, angle_steers )      
-    elif steeringPressed:
-      debug_status = 1
-      if angle_steers > 10 and steeringTorque > 0:
-        delta_steer = max( delta_steer, 0 )
-        delta_steer = min( delta_steer, DST_ANGLE_LIMIT )
-        self.angle_steers_des_mpc = angle_steers + delta_steer
-      elif angle_steers < -10  and steeringTorque < 0:
-        delta_steer = min( delta_steer, 0 )
-        delta_steer = max( delta_steer, -DST_ANGLE_LIMIT )        
-        self.angle_steers_des_mpc = angle_steers + delta_steer
-      else:
-        debug_status = 2
-        if steeringTorque < 0:  # right
-          if delta_steer > 0:
-            self.angle_steers_des_mpc = self.limit_ctrl( org_angle_steers_des, DST_ANGLE_LIMIT, angle_steers )
-        elif steeringTorque > 0:  # left
-          if delta_steer < 0:
-            self.angle_steers_des_mpc = self.limit_ctrl( org_angle_steers_des, DST_ANGLE_LIMIT, angle_steers )
-    elif v_ego_kph < 20 : #and abs(angle_steers) < 5.0 : 
-      debug_status = 3
-    # 저속 와리가리 제어.  
-      xp = [5,10,20]
-      fp2 = [1,3,7]
-      limit_steers = interp( v_ego_kph, xp, fp2 )
-      self.angle_steers_des_mpc = self.limit_ctrl( org_angle_steers_des, limit_steers, angle_steers )
-    elif v_ego_kph > 85: 
-      debug_status = 4
-      pass
-    elif abs(angle_steers) > 25: 
-    # #최대 허용 조향각 제어 로직 1.  
-      debug_status = 5
-      xp = [-30,-20,-10,-5,0,5,10,20,30]    # 5=>약12도, 10=>28 15=>35, 30=>52
-      fp1 = [ 3, 5, 7, 9,11,13,15,13,11,9]    # +
-      fp2 = [ 9,11,13,15,13,11, 9, 7, 5,3]    # -
-      # fp1 = [ 5, 7, 9,11,13,15,17,15,12]    # +
-      # fp2 = [12,15,17,15,13,11, 9, 7, 5]    # -
-      # xp = [-40,-30,-20,-10,-5,0,5,10,20,30,40]    # 5=>약12도, 10=>28 15=>35, 30=>52
-      # fp1 = [ 3, 5, 7, 9,11,13,15,17,15,12,10]    # +
-      # fp2 = [10,12,15,17,15,13,11, 9, 7, 5, 3]    # -      
-      limit_steers1 = interp( model_sum, xp, fp1 )  # +
-      limit_steers2 = interp( model_sum, xp, fp2 )  # -
-      self.angle_steers_des_mpc = self.limit_ctrl1( org_angle_steers_des, limit_steers1, limit_steers2, angle_steers )
+    # if self.lane_change_state == LaneChangeState.laneChangeStarting:
+    #   debug_status = 0
+    #   xp = [40,70]
+    #   fp2 = [5,10]
+    #   limit_steers = interp( v_ego_kph, xp, fp2 )
+    #   self.angle_steers_des_mpc = self.limit_ctrl( org_angle_steers_des, limit_steers, angle_steers )      
+    # elif steeringPressed:
+    #   debug_status = 1
+    #   if angle_steers > 10 and steeringTorque > 0:
+    #     delta_steer = max( delta_steer, 0 )
+    #     delta_steer = min( delta_steer, DST_ANGLE_LIMIT )
+    #     self.angle_steers_des_mpc = angle_steers + delta_steer
+    #   elif angle_steers < -10  and steeringTorque < 0:
+    #     delta_steer = min( delta_steer, 0 )
+    #     delta_steer = max( delta_steer, -DST_ANGLE_LIMIT )        
+    #     self.angle_steers_des_mpc = angle_steers + delta_steer
+    #   else:
+    #     debug_status = 2
+    #     if steeringTorque < 0:  # right
+    #       if delta_steer > 0:
+    #         self.angle_steers_des_mpc = self.limit_ctrl( org_angle_steers_des, DST_ANGLE_LIMIT, angle_steers )
+    #     elif steeringTorque > 0:  # left
+    #       if delta_steer < 0:
+    #         self.angle_steers_des_mpc = self.limit_ctrl( org_angle_steers_des, DST_ANGLE_LIMIT, angle_steers )
+    # elif v_ego_kph < 20 : #and abs(angle_steers) < 5.0 : 
+    #   debug_status = 3
+    # # 저속 와리가리 제어.  
+    #   xp = [5,10,20]
+    #   fp2 = [1,3,7]
+    #   limit_steers = interp( v_ego_kph, xp, fp2 )
+    #   self.angle_steers_des_mpc = self.limit_ctrl( org_angle_steers_des, limit_steers, angle_steers )
+    # elif v_ego_kph > 85: 
+    #   debug_status = 4
+    #   pass
+    # elif abs(angle_steers) > 25: 
+    # # #최대 허용 조향각 제어 로직 1.  
+    #   debug_status = 5
+    #   xp = [-30,-20,-10,-5,0,5,10,20,30]    # 5=>약12도, 10=>28 15=>35, 30=>52
+    #   fp1 = [ 3, 5, 7, 9,11,13,15,13,11,9]    # +
+    #   fp2 = [ 9,11,13,15,13,11, 9, 7, 5,3]    # -
+    #   # fp1 = [ 5, 7, 9,11,13,15,17,15,12]    # +
+    #   # fp2 = [12,15,17,15,13,11, 9, 7, 5]    # -
+    #   # xp = [-40,-30,-20,-10,-5,0,5,10,20,30,40]    # 5=>약12도, 10=>28 15=>35, 30=>52
+    #   # fp1 = [ 3, 5, 7, 9,11,13,15,17,15,12,10]    # +
+    #   # fp2 = [10,12,15,17,15,13,11, 9, 7, 5, 3]    # -      
+    #   limit_steers1 = interp( model_sum, xp, fp1 )  # +
+    #   limit_steers2 = interp( model_sum, xp, fp2 )  # -
+    #   self.angle_steers_des_mpc = self.limit_ctrl1( org_angle_steers_des, limit_steers1, limit_steers2, angle_steers )
       
-    str1 = '#/{} CVs/{} LS1/{} LS2/{} Ang/{} oDES/{} delta1/{} fDES/{} '.format(   
-              debug_status, model_sum, limit_steers1, limit_steers2, angle_steers, org_angle_steers_des, delta_steer, self.angle_steers_des_mpc)
+    # str1 = '#/{} CVs/{} LS1/{} LS2/{} Ang/{} oDES/{} delta1/{} fDES/{} '.format(   
+    #           debug_status, model_sum, limit_steers1, limit_steers2, angle_steers, org_angle_steers_des, delta_steer, self.angle_steers_des_mpc)
 
-    # Conan : 최대 허용 조향각 제어 로직 2.  
-    delta_steer2 = self.angle_steers_des_mpc - angle_steers
-    if delta_steer2 > DST_ANGLE_LIMIT:   
-      p_angle_steers = angle_steers + DST_ANGLE_LIMIT
-      self.angle_steers_des_mpc = p_angle_steers
-    elif delta_steer2 < -DST_ANGLE_LIMIT:
-      m_angle_steers = angle_steers - DST_ANGLE_LIMIT
-      self.angle_steers_des_mpc = m_angle_steers
+    # # Conan : 최대 허용 조향각 제어 로직 2.  
+    # delta_steer2 = self.angle_steers_des_mpc - angle_steers
+    # if delta_steer2 > DST_ANGLE_LIMIT:   
+    #   p_angle_steers = angle_steers + DST_ANGLE_LIMIT
+    #   self.angle_steers_des_mpc = p_angle_steers
+    # elif delta_steer2 < -DST_ANGLE_LIMIT:
+    #   m_angle_steers = angle_steers - DST_ANGLE_LIMIT
+    #   self.angle_steers_des_mpc = m_angle_steers
 
-    str2 = 'delta2/{} fDES2/{}'.format(   
-            delta_steer2, self.angle_steers_des_mpc)
-    self.trRapidCurv.add( str1 + str2 )        
+    # str2 = 'delta2/{} fDES2/{}'.format(   
+    #         delta_steer2, self.angle_steers_des_mpc)
+    # self.trRapidCurv.add( str1 + str2 )        
 
     # Hoya : 가변 sR rate_cost 
     # self.sr_boost_bp = [ 10.0, 15.0, 20.0, 30.0]
