@@ -1,3 +1,4 @@
+bool hyundai_has_scc = false;
 int OP_LKAS_live = 0;
 int OP_MDPS_live = 0;
 int OP_CLU_live = 0;
@@ -42,7 +43,6 @@ static int hyundai_community_rx_hook(CAN_FIFOMailBox_TypeDef *to_push) {
                             hyundai_get_checksum, hyundai_compute_checksum,
                             hyundai_get_counter);
 
-  
   // check if we have a LCAN on Bus1
   if (bus == 1 && (addr == 1296 || addr == 524)) {
     if (hyundai_forward_bus1 || !hyundai_LCAN_on_bus1) {
@@ -220,7 +220,7 @@ static int hyundai_community_tx_hook(CAN_FIFOMailBox_TypeDef *to_send) {
   // ensuring that only the cancel button press is sent (VAL 4) when controls are off.
   // This avoids unintended engagements while still allowing resume spam
   //allow clu11 to be sent to MDPS if MDPS is not on bus0
-  if (addr == 1265 && !controls_allowed && (bus != hyundai_mdps_bus && hyundai_mdps_bus == 1)) { 
+  if (addr == 1265 && !controls_allowed && (bus != hyundai_mdps_bus && hyundai_mdps_bus == 1)) {
     if ((GET_BYTES_04(to_send) & 0x7) != 4) {
       tx = 0;
     }
@@ -285,7 +285,7 @@ static int hyundai_community_fwd_hook(int bus_num, CAN_FIFOMailBox_TypeDef *to_f
         }
       } else if (hyundai_mdps_bus == 0) {
         bus_fwd = fwd_to_bus1; // EON create LKAS and LFA for Car
-        OP_LKAS_live -= 1; 
+        OP_LKAS_live -= 1;
       } else {
         OP_LKAS_live -= 1; // EON create LKAS and LFA for Car and MDPS
       }
