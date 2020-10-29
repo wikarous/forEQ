@@ -369,8 +369,8 @@ static void ui_draw_vision_lanes(UIState *s) {
 
   float  left_lane =  fmax(0.1, scene->model.getLeftLane().getProb());
   float  right_lane =  fmax( 0.1, scene->model.getRightLane().getProb());
-  NVGcolor colorLeft = nvgRGBAf(left_red_lvl, left_green_lvl, left_blue_lvl, left_lane );
-  NVGcolor colorRight = nvgRGBAf(right_red_lvl, right_green_lvl, right_blue_lvl, right_lane );
+  NVGcolor colorLeft = nvgRGBAf(1.0, 1.0, 1.0, left_lane );
+  NVGcolor colorRight = nvgRGBAf(1.0, 1.0, 1.0, right_lane );
 
   if ( scene->model.getLeftLane().getProb() > 0.5 ){
     left_green_lvl = int(255 - (1 - scene->model.getLeftLane().getProb()) * 1.1 * 255);
@@ -413,6 +413,10 @@ static void ui_draw_vision_lanes(UIState *s) {
   {
     colorRight  = nvgRGBAf(1.0, 0.5, 0.5, right_lane );
   }
+
+  colorLeft = nvgRGBA (left_red_lvl, left_green_lvl, left_blue_lvl, 255);
+  colorRight = nvgRGBA (right_red_lvl, right_green_lvl, right_blue_lvl, 255);
+
   // Draw left lane edge
   ui_draw_lane(s, pvd, colorLeft);
 
