@@ -552,29 +552,29 @@ static void ui_draw_debug(UIState *s)
 
   int ui_viz_rx = scene.viz_rect.x + 300;
   int ui_viz_ry = 108; 
+  int ui_viz_rx_center = scene.viz_rect.centerX();
   
   nvgTextAlign(s->vg, NVG_ALIGN_LEFT | NVG_ALIGN_BASELINE);
 
   if (s->nDebugUi1 == 1) {
-    ui_draw_text(s->vg, 0, 1024, scene.alertTextMsg1.c_str(), 50, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);
-    ui_draw_text(s->vg, 0, 1078, scene.alertTextMsg2.c_str(), 50, COLOR_WHITE_ALPHA(200), s->font_sans_semibold);
+    ui_draw_text(s->vg, 0, 1024, scene.alertTextMsg1.c_str(), 50, COLOR_WHITE_ALPHA(150), s->font_sans_semibold);
+    ui_draw_text(s->vg, 0, 1078, scene.alertTextMsg2.c_str(), 50, COLOR_WHITE_ALPHA(150), s->font_sans_semibold);
   }
 
   nvgFontSize(s->vg, 45);
+  nvgFillColor(s->vg, COLOR_WHITE_ALPHA(150));
   if (s->nDebugUi2 == 1) {
-  ui_print( s, ui_viz_rx, ui_viz_ry+0,   "sR:%.2f, %.2f", scene.liveParams.steerRatio, scene.pathPlan.steerRatio );
-  ui_print( s, ui_viz_rx, ui_viz_ry+50,  "aO:%.2f, %.2f", scene.liveParams.angleOffset, scene.pathPlan.angleOffset );
-  //ui_print( s, ui_viz_rx, ui_viz_ry+100, "aA:%.2f", scene.liveParams.angleOffsetAverage );
-  //ui_print( s, ui_viz_rx, ui_viz_ry+150, "sF:%.2f", scene.liveParams.stiffnessFactor );
-  //ui_print( s, ui_viz_rx, ui_viz_ry+100, "aD:%.2f", scene.pathPlan.steerActuatorDelay );
-  //ui_print( s, ui_viz_rx, ui_viz_ry+250, "lW:%.2f", scene.pathPlan.laneWidth );
-  ui_print( s, ui_viz_rx, ui_viz_ry+100, "prob:%.2f, %.2f", scene.pathPlan.lProb, scene.pathPlan.rProb );
-  //ui_print( s, ui_viz_rx, ui_viz_ry+350, "Poly:%.2f, %.2f", scene.pathPlan.lPoly, scene.pathPlan.rPoly );
-  ui_print( s, ui_viz_rx, ui_viz_ry+150, "curv:%.4f", scene.curvature );
-  //ui_print( s, ui_viz_rx, ui_viz_ry+450, "awareness:%.2f" , scene.awareness_status);
-  
-  ui_print( s, ui_viz_rx+270, ui_viz_ry+800, "좌측간격(%%)       차선폭         우측간격(%%)");
-  ui_print( s, ui_viz_rx+270, ui_viz_ry+850, "      %4.1f                 %4.1f                  %4.1f", (scene.pathPlan.lPoly/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100, scene.pathPlan.laneWidth, (abs(scene.pathPlan.rPoly)/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100 );
+    ui_print( s, ui_viz_rx, ui_viz_ry+0,   "sR:%.2f", scene.pathPlan.steerRatio );
+    ui_print( s, ui_viz_rx, ui_viz_ry+50,  "aO:%.2f", scene.pathPlan.angleOffset );
+    //ui_print( s, ui_viz_rx, ui_viz_ry+100, "aA:%.2f", scene.liveParams.angleOffsetAverage );
+    //ui_print( s, ui_viz_rx, ui_viz_ry+150, "sF:%.2f", scene.liveParams.stiffnessFactor );
+    //ui_print( s, ui_viz_rx, ui_viz_ry+100, "aD:%.2f", scene.pathPlan.steerActuatorDelay );
+    ui_print( s, ui_viz_rx, ui_viz_ry+100, "OutScale:%.3f", scene.output_scale);
+    ui_print( s, ui_viz_rx, ui_viz_ry+150, "prob:%.2f, %.2f", scene.pathPlan.lProb, scene.pathPlan.rProb );
+    //ui_print( s, ui_viz_rx, ui_viz_ry+450, "awareness:%.2f" , scene.awareness_status);
+    nvgTextAlign(s->vg, NVG_ALIGN_CENTER | NVG_ALIGN_BASELINE);
+    ui_print( s, ui_viz_rx_center, ui_viz_ry+800, "  L.Poly(%%)      LaneWidth      R.Poly(%%)");
+    ui_print( s, ui_viz_rx_center, ui_viz_ry+850, "%4.1f                    %4.2f                 %4.1f", (scene.pathPlan.lPoly/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100, scene.pathPlan.laneWidth, (abs(scene.pathPlan.rPoly)/(scene.pathPlan.lPoly+abs(scene.pathPlan.rPoly)))*100 );
   }
 }
 
