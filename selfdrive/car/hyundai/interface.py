@@ -158,6 +158,9 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.lqr.k = [-110.73572306, 451.22718255]
       ret.lateralTuning.lqr.l = [0.3233671, 0.3185757]
       ret.lateralTuning.lqr.dcGain = 0.002858 #DcGain
+      ret.steerRateCost = 0.555 #int(params.get('SteerRateCostAdj')) * 0.01
+      ret.steerLimitTimer = 2.5 #int(params.get('SteerLimitTimerAdj')) * 0.01
+      ret.steerRatio = 13.8 #int(params.get('SteerRatioAdj')) * 0.1
       ret.steerMaxV = [0.8, 1.8] #LqrSteerMaxV
       ret.steerMaxBP = [5., 11.] # 5m/S = 18km/h, 11m/S = 40km/h, 14m/S = 50km/h, 22m/S = 79km/h
 
