@@ -171,10 +171,10 @@ managed_processes = {
   "dmonitoringd": "selfdrive.monitoring.dmonitoringd",
   "ubloxd": ("selfdrive/locationd", ["./ubloxd"]),
 #  "loggerd": ("selfdrive/loggerd", ["./loggerd"]),
-#  "logmessaged": "selfdrive.logmessaged",
+  "logmessaged": "selfdrive.logmessaged",
   "locationd": "selfdrive.locationd.locationd",
 #  "tombstoned": "selfdrive.tombstoned",
-#  "logcatd": ("selfdrive/logcatd", ["./logcatd"]),
+  "logcatd": ("selfdrive/logcatd", ["./logcatd"]),
   "proclogd": ("selfdrive/proclogd", ["./proclogd"]),
   "boardd": ("selfdrive/boardd", ["./boardd"]),   # not used directly
   "pandad": "selfdrive.pandad",
