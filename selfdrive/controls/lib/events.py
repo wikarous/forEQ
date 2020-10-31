@@ -156,7 +156,7 @@ class SoftDisableAlert(Alert):
     super().__init__("핸들을 잡아주세요", alert_text_2,
                      AlertStatus.userPrompt, AlertSize.full,
                      Priority.MID, VisualAlert.steerRequired,
-                     AudibleAlert.chimeWarningRepeat, .1, 2., 2.),
+                     AudibleAlert.chimeDisengage, .1, 2., 2.),
 
 
 class ImmediateDisableAlert(Alert):
